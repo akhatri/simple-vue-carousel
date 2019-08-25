@@ -35,6 +35,7 @@ export default class Footer extends Vue {}
     list-style-type: none;
     li > a {
       font-size: 12px;
+      text-decoration: none;
       color: #fff;
       margin-right: 5px;
     }

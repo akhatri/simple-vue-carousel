@@ -17,9 +17,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
-  components: {
-    Header,
-  },
+  components: {},
 })
 
 export default class Header extends Vue {
