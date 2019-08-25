@@ -15,8 +15,8 @@
     </div>
 
     <div class="carousel-controls">
-      <button class="btn" @click="previous()">Previous</button>
-      <button class="btn" @click="next()">Next</button>
+      <button aria-label="Previous" class="btn" @click="previous()">Previous</button>
+      <button aria-label="Next" class="btn" @click="next()">Next</button>
     </div>
   </section>
 </template>
@@ -101,7 +101,7 @@ export default class Carousel extends Vue {
       display: flex;
       flex-direction: column;
       &__image {
-        height: 40vh;
+        height: 350px;
         object-fit: cover;
       }
       opacity: 0.5;

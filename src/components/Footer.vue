@@ -1,5 +1,5 @@
 <template>
-  <header class="site-footer">
+  <footer class="site-footer">
     <nav class="footer-nav">
       <ul>
         <li>
@@ -8,7 +8,7 @@
         </li>
       </ul>
     </nav>
-  </header>
+  </footer>
 </template>
 
 <script lang="ts">
