@@ -18,7 +18,7 @@ npm run test:unit
 ## Project Approach
 
 ### Technology Stack
-- I've used Vue for this project as it's easier to boostrap with the Vue CLI. I initially considered Angular as I have a fair amount of experience with that but decided to go with Vue as it feels more lightweight and fast and most of the concepts are similiar. I would have liked to use React.js but due to the time-contraints I did not as it has a lot of boilerplate setup and I would have to research the best ways to go about creating the project and learning some of the patterns and ways of implementing the project. Foe example, I'm fairly new to CSS-in-JSX although it's something I'm keen to pick-up as React is a popular framework these days
+- I've used Vue for this project as it's easier to boostrap with the Vue CLI. I initially considered Angular as I have a fair amount of experience with that but decided to go with Vue as it feels more lightweight and fast and most of the concepts are similiar. I would have liked to use React.js but due to the time-contraints I did not as it has a lot of boilerplate setup and I would have to research the best ways to go about creating the project and learning some of the patterns and ways of implementing the project. For example, I'm fairly new to CSS-in-JSX, Redux although it's something I'm keen to pick-up as React is a popular framework these days
 
 ### Preparation and Execution
 - I spent some time in planning my approach so I hope it was okay with the rules. Overall, I believe I spent the required amount of time on this project and I usually follow this approach of planning and prep before going straight into development.
