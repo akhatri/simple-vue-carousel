@@ -151,6 +151,10 @@ export default class Carousel extends Vue {
 // Responsive view - mobile
 @media only screen and (max-width: 767px) {
 
+  .carousel-container {
+    margin-top: 0;
+  }
+
   // show only 1 image in mobile view
   .carousel-media {
     padding: 0;
@@ -179,8 +183,8 @@ export default class Carousel extends Vue {
       padding: 0px;
       cursor: pointer;
       img {
-        transform: scale(0.5) translateX(10px);
         transform-origin: 50% 50%;
+        //transform: scale(0.5) translateX(10px);
       }
       &.previous {
         position: absolute;
@@ -191,6 +195,7 @@ export default class Carousel extends Vue {
         border-bottom-left-radius: 100px;
         img {
           //transform: translateX(2px);
+          transform: scale(0.5) translate(10px, 3px);
         }
       }
       &.next {
@@ -202,6 +207,7 @@ export default class Carousel extends Vue {
         border-bottom-left-radius: 100px;
         img {
           //transform: translateX(0px);
+          transform: scale(0.5) translate(10px, 3px);
         }
       }
     }
