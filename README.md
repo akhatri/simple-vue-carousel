@@ -23,6 +23,7 @@ npm run test:unit
 ### Preparation and Execution
 - I spent some time in planning my approach so I hope it was okay with the rules. Overall, I believe I spent the required amount of time on this project and I usually follow this approach of planning and prep before going straight into development.
 - I went through the requirements README.md file Saturday evening to get a rough idea on what was required and then made some notes on how I could implement the solution efficiently, brainstorming ways on the logic of the slider, setting up the HTML structure, considering the technology stack (decided on Vue.js) and ways whereby I could try some ES6 principles 
+- On Sunday evening, I started working on building the project
 - I decided to go with Typescript as it's cleaner with type checking and it allows validation during development. It also supports the latest ES6 principles and fallbacks for older browsers through babel support (which comes built-in with the Vue CLI)
 
 ### Limitations and Improvements
