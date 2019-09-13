@@ -1,17 +1,33 @@
 <template>
   <section class="carousel-container">
     <div class="carousel-media">
-      <ul class="slides">
+
+      <!-- Desktop - multiple carousel items -->
+      <ul class="slides" v-if="!mobileView">
         <li
           class="slide"
-          v-for="(slide, index) in slidesData.slice(0, 5)"
-          v-bind:key="index"
-          :class="{ 'is-active' : index === 2}"
+          v-for="(slide, index) in slidesData.slice(0, this.carouselSize )"
+          :key="slide.id"
+          :class="{ 'is-active' : index === carouselActiveIndex}"
         >
           <img class="slide__image" :src="slide.webformatURL" :alt="slide.tags" />
           <p class="slide__meta">{{slide.user}} - {{slide.tags}}</p>
         </li>
       </ul>
+
+      <!-- Mobile - single carousel item   -->
+      <ul class="slides" v-if="mobileView">
+        <li
+          class="slide"
+          v-for="(slide) in slidesData.slice(0, 1 )"
+          :key="slide.id"
+        >
+          <img class="slide__image" :src="slide.webformatURL" :alt="slide.tags" />
+          <p class="slide__meta">{{slide.user}} - {{slide.tags}}</p>
+        </li>
+      </ul>
+
+
     </div>
 
     <div class="carousel-controls">
@@ -21,19 +37,17 @@
 
     <div class="mobile-controls">
       <button aria-label="Previous" class="btn previous" @click="previous()">
-        <img alt="previous arrow" src="images/arrow.svg"/>
+        <img alt="previous arrow" src="images/arrow.svg" />
       </button>
       <button aria-label="Next" class="btn next" @click="next()">
-        <img alt="next arrow" src="images/arrow.svg"/>
+        <img alt="next arrow" src="images/arrow.svg" />
       </button>
     </div>
-
-
   </section>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 
 // Libraries
 import axios from "axios";
@@ -42,10 +56,47 @@ import axios from "axios";
   components: {}
 })
 export default class Carousel extends Vue {
-  // Data types
-  public slidesData: any = [];
 
-  // mounted lifecycle
+  // Props
+  @Prop() private carouselSize!: number;
+
+  // Data types
+  public slidesData: any;
+  public carouselActiveIndex: number;
+  public mobileView: boolean;
+
+  constructor() {
+    super();
+
+    this.slidesData = [];
+    this.carouselActiveIndex = 0;
+    this.mobileView = false;
+    console.log(this.carouselSize);
+  }
+
+  // Lifecycle hooks
+  //-----------------
+
+  created() {
+    console.log('created');
+    this.checkViewport();
+  }
+
+  beforeMount() {
+    console.log("before mounted");
+    console.log(this.carouselSize);
+
+    // If carousel size is 1 or an even number, just make the active index 0
+    if (this.carouselSize === 1 || this.carouselSize % 2 == 0) {
+      console.log("single carousel item or even number or items");
+      this.carouselActiveIndex === 0;
+    } else {
+      console.log("multi carousel item with an odd number so the center element should have the active class");
+      this.carouselActiveIndex = Math.floor(this.carouselSize / 2);
+      console.log(this.carouselActiveIndex);
+    }
+  }
+
   async mounted() {
     console.log("mounted");
 
@@ -60,12 +111,44 @@ export default class Carousel extends Vue {
       // store resultset in slides array
       this.slidesData = res.data.hits;
       console.log(this.slidesData);
+      console.log(this.slidesData.length);
     } catch (e) {
       console.log(e);
     }
+
+    this.resizeViewport();
+
+  }
+
+  // Functions
+  //------------
+
+  // resize
+  resizeViewport() {
+    window.addEventListener('resize', () => {
+      console.log('hit resize');
+      this.checkViewport();
+    });
+  }
+
+  // check viewport
+  checkViewport() {
+
+      let width = document.body.clientWidth;
+
+      // if width is less than 767px show mobile view carousel otherwise show desktop view
+      if (width <= 767) {
+        this.mobileView = true;
+      } else if (width > 767) {
+        this.mobileView = false;
+      }    
+
+      console.log(this.mobileView);
   }
 
   // Click events
+  //-----------------
+
   previous() {
     console.log("clicked previous");
 
@@ -73,11 +156,11 @@ export default class Carousel extends Vue {
     const lastItemRemoved = this.slidesData.pop();
 
     // add the last removed item back to the start of the array
-		this.slidesData.unshift(lastItemRemoved);
+    this.slidesData.unshift(lastItemRemoved);
   }
 
   next() {
-		console.log("clicked next");
+    console.log("clicked next");
 
     // remove the first item at the beginning of the array
     let firstItemRemoved = this.slidesData.shift();
@@ -85,13 +168,11 @@ export default class Carousel extends Vue {
     // add the first removed back to the end of the array
     this.slidesData.push(firstItemRemoved);
   }
-
 }
 </script>
 
 
 <style lang="scss" scoped>
-
 .carousel-container {
   position: relative;
   margin-top: 20px;
@@ -109,12 +190,14 @@ export default class Carousel extends Vue {
     display: flex;
     overflow: hidden;
     .slide {
-      flex-basis: 20%;
+      // flex-basis: 20%;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      padding-left: 5px;
+      padding-right: 5px;
       &__image {
-        height: 350px;
+        height: 300px;
         object-fit: cover;
       }
       opacity: 0.5;
@@ -136,7 +219,7 @@ export default class Carousel extends Vue {
     text-transform: uppercase;
     border: 0;
     margin-right: 10px;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     cursor: pointer;
     &:hover {
       background-color: #fe414d;
@@ -150,7 +233,6 @@ export default class Carousel extends Vue {
 
 // Responsive view - mobile
 @media only screen and (max-width: 767px) {
-
   .carousel-container {
     margin-top: 0;
   }
@@ -160,14 +242,19 @@ export default class Carousel extends Vue {
     padding: 0;
     .slides {
       width: 100%;
-      // hide the non-active slides as we have only 1 active slide per view on mobile
-      .slide:not(.is-active) {
-        display: none;
+      // hide the non-active slides as we have only 1 active slide per view on mobile - hacky workaround earlier what i would do is run an event listener on resize and if it hits mobile viewport I'll pass the carousel size as 1
+      // .slide:not(.is-active) {
+      //   display: none;
+      // }
+      // .slide.is-active {
+      //   flex-basis: 100%;
+      // }
+      .slide {
+        flex-basis: 100%; // make the single slide full width
+        padding-left: 0;
+        padding-right: 0;
+        opacity: 1;
       }
-      .slide.is-active {
-        flex-basis: 100%;
-      }
-
     }
   }
 
@@ -213,5 +300,4 @@ export default class Carousel extends Vue {
     }
   }
 }
-
 </style>

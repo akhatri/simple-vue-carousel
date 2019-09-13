@@ -2,7 +2,7 @@
   <div id="app" class="site-container">
     <Header />
     <main class="site-main">
-      <Carousel />
+      <Carousel v-bind:carouselSize="5" />
     </main>
     <Footer />
   </div>
